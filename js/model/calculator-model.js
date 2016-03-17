@@ -6,18 +6,22 @@ function CalculatorModel (width, height, ele) {
 	this.btnArray        = [];
 	this.$ele            = ele;
 	this.inputEle        = {'element': undefined, 'setInput': undefined, 'clearInput': undefined};
+	this.prevVal   	     = '';
+	this.newVal			 = '';
 }
 
 CalculatorModel.prototype = {
 	'setOperator' : function (operator) {
-		this.curVal += operator;
-		this.inputEle.setInput(this.inputEle.element, operator);
+		this.prevVal = this.curVal;
+		this.curVal  = '';
+		this.inputEle.clearInput(this.inputEle.element);
+		this.currentOperator = operator;
 	},
 	'getOperator' : function () {
 		return this.currentOperator;
 	},
 	'setVal' : function (val) {
-		this.curVal += val;
+		this.curVal = parseFloat(val);
 		this.inputEle.setInput(this.inputEle.element, val);
 	},
 	'getVal' : function () {

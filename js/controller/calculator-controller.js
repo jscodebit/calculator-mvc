@@ -4,7 +4,21 @@ function CalculatorController(model, view){
 }
 
 CalculatorController.prototype = {
-	'evaluate' : function () {
+	'evaluate' : function (leftoperand,rightOperand) {
+		try{
+			var result='',opr='';
+			opr = this.model.getOperator();
+
+			result=eval(leftoperand+opr+rightOperand);
+			console.log("result : "+result);
+
+			this.clearInput();
+			this.model.setVal(result);
+			
+		} catch(e){			
+			//throw e; // pass exception object to error handler
+			//throw new Error(e+"Please provide input");
+		}
 
 	},
 	'clearInput': function () {
@@ -13,24 +27,28 @@ CalculatorController.prototype = {
 		this.model.setOperator('');
 	},
 	'handleClick' : function (event) {
-		switch (event.srcElement.innerHTML) {
+		var btnText = event.srcElement.innerHTML;
+		switch (btnText) {
 			case '+':
-				this.model.setOperator(event.srcElement.innerHTML);
+				this.model.setOperator(btnText);
+				break;
 			case '-':
-				this.model.setOperator(event.srcElement.innerHTML);
+				this.model.setOperator(btnText);
+				break;
 			case '*':
-				this.model.setOperator(event.srcElement.innerHTML);
+				this.model.setOperator(btnText);
+				break;
 			case '/':
-				this.model.setOperator(event.srcElement.innerHTML);
+				this.model.setOperator(btnText);
 				break;
 			case '=':
-				this.evaluate();
+				this.evaluate(this.model.prevVal,this.model.curVal);
 				break;
 			case 'C':
 				this.clearInput();
 				break;
-			default: 
-			    this.model.setVal(event.srcElement.innerHTML);
+			default:
+			    this.model.setVal(btnText);
 			    break;
 		}
 	},
